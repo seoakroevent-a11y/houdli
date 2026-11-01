@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { cache } from "react";
 import type { FaqItem } from "@/content/faq";
 import type { ClientLogo } from "@/content/clients";
@@ -94,7 +95,10 @@ function phoneHref(display: string, whatsapp: string) {
   return digits.startsWith("0") ? `tel:+212${digits.slice(1)}` : `tel:+${digits}`;
 }
 
+/** Mis en cache (« use cache ») : sans lui, la lecture Supabase bloque le pré-rendu dès que le réseau est lent. */
 async function rest<T>(path: string): Promise<T | null> {
+  "use cache";
+  cacheLife("minutes");
   const env = supabaseEnv();
   if (!env) return null;
   try {
@@ -104,7 +108,6 @@ async function rest<T>(path: string): Promise<T | null> {
         Authorization: `Bearer ${env.anonKey}`,
         Accept: "application/json",
       },
-      next: { revalidate: 60 },
     });
     if (!response.ok) return null;
     return (await response.json()) as T;
