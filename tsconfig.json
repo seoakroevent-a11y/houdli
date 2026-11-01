@@ -19,6 +19,10 @@
       }
     ],
     "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/lib/utils": ["./internal/modules/class-names.ts"],
+      "@/lib/*": ["./internal/modules/*"],
+      "@/content/*": ["./internal/modules/content/*"],
       "@/*": ["./*"]
     }
   },
