@@ -16,6 +16,15 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const configured = Boolean(supabaseEnv());
 
+  function signInMessage(code?: string, status?: number) {
+    if (code === "email_not_confirmed") return "Cet e-mail n'est pas encore confirmé : validez-le dans Supabase (Authentication → Users).";
+    if (code === "over_request_rate_limit" || status === 429) return "Trop de tentatives. Patientez quelques minutes avant de réessayer.";
+    if (code === "user_banned") return "Ce compte est suspendu.";
+    if (code === "invalid_credentials") return "E-mail ou mot de passe incorrect.";
+    if (status === 401 || status === 403) return "Connexion à Supabase refusée : vérifiez la clé publique du site.";
+    return `Connexion impossible${code ? ` (${code})` : ""}. Réessayez dans un instant.`;
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const supabase = createBrowserSupabase();
@@ -25,7 +34,7 @@ export function LoginForm() {
     const { data, error: signError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     if (signError || !data.user) {
       setLoading(false);
-      setError("E-mail ou mot de passe incorrect.");
+      setError(signInMessage(signError?.code, signError?.status));
       return;
     }
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();

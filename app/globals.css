@@ -19,9 +19,9 @@
 }
 
 .dark {
-  --bg: #0000CD;
-  --bg-alt: #0000CD;
-  --card: #1a1ae0;
+  --bg: #080838;
+  --bg-alt: #080838;
+  --card: #12124c;
   --fg: #ffffff;
   --fg-muted: #ffffff;
   --accent-text: #ffffff;
