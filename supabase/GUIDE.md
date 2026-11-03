@@ -31,3 +31,11 @@ Le site public ne change pas tant que les listes FAQ, références et galerie so
 ## CRM, devis et factures
 
 Exécutez une fois `supabase/crm-devis-factures.sql` dans **SQL Editor**. Il crée les fiches clients, l’historique des échanges, les devis, les factures et leur numérotation (`DEV-2026-001`, `FAC-2026-001`). Tout reste réservé aux comptes admin. Remplissez ensuite **Paramètres → Facturation** (raison sociale, ICE, RC, IF, RIB) : ces mentions s’impriment sur chaque document.
+
+Pour le calendrier, exécutez ensuite `supabase/calendrier.sql`. Les relances du CRM et les échéances des devis et factures y apparaissent automatiquement.
+
+Pour le lien de devis en ligne, exécutez `supabase/devis-en-ligne.sql`. Chaque devis reçoit un lien secret `/devis/…` : le client le consulte et l’accepte, le devis passe en « Accepté » et la fiche CRM en « Client ».
+
+## Alertes e-mail
+
+Créez un compte gratuit sur [resend.com](https://resend.com), puis une clé API. Dans Vercel → Settings → Environment Variables, ajoutez `RESEND_API_KEY` (la clé) et `ALERT_EMAIL` (l’adresse qui reçoit les alertes), puis redéployez. Sans domaine vérifié chez Resend, `ALERT_EMAIL` doit être l’adresse du compte Resend. Une fois `houdli.ma` vérifié, ajoutez `ALERT_FROM`, par exemple `Houdli <alertes@houdli.ma>`, pour écrire à n’importe quelle adresse.

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, Plus, Printer } from "lucide-react";
+import { CalendarDays, FileText, Plus, Printer } from "lucide-react";
 import { ConfirmSubmit } from "@/components/admin/ConfirmSubmit";
 import { Flash } from "@/components/admin/Flash";
 import { PageHeader } from "@/components/admin/PageHeader";
@@ -19,7 +19,10 @@ import {
   todayInMorocco,
   type DocumentKind,
 } from "@/lib/admin/billing";
+import { QuoteShare } from "@/components/admin/billing/QuoteShare";
 import { isUuid } from "@/lib/admin/format";
+import { formatInquiryDate, whatsappNumber } from "@/lib/admin/inquiries";
+import { site } from "@/lib/site";
 import { deleteDocument, invoiceFromQuote, setDocumentStatus } from "@/lib/admin/documents";
 import { activites } from "@/content/activites";
 import { universList } from "@/content/univers";
@@ -271,6 +274,11 @@ async function DocumentEditor({ kind, query, supabase }: { kind: DocumentKind; q
           .maybeSingle(),
   ]);
   const doc = docResult.data;
+  const { data: online } =
+    doc && kind === "quote"
+      ? await supabase.from("documents").select("public_token,accepted_at,accepted_by,clients(name,phone,email)").eq("id", doc.id).maybeSingle()
+      : { data: null };
+  const onlineClient = online?.clients as unknown as { name: string; phone: string | null; email: string | null } | null;
   if (!isNew && !doc) {
     return (
       <>
@@ -341,6 +349,10 @@ async function DocumentEditor({ kind, query, supabase }: { kind: DocumentKind; q
           <Link href={`/admin/crm?id=${doc.client_id}`} className={ghostButton}>
             Fiche client
           </Link>
+          <Link href={`/admin/calendrier?jour=${todayInMorocco()}&document=${doc.id}`} className={cn(ghostButton, "gap-1.5")}>
+            <CalendarDays size={13} aria-hidden="true" />
+            Planifier
+          </Link>
           {kind === "quote" ? (
             <form action={invoiceFromQuote}>
               <input type="hidden" name="id" value={doc.id} />
@@ -355,6 +367,32 @@ async function DocumentEditor({ kind, query, supabase }: { kind: DocumentKind; q
             </Link>
           ) : null}
         </div>
+      ) : null}
+      {doc && kind === "quote" ? (
+        <section className="mb-6 rounded-xl border border-white/10 bg-[#111111] p-5 sm:p-6">
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em]">Lien pour le client</h2>
+          {online?.public_token ? (
+            <>
+              <p className="mb-4 mt-1 text-sm text-white/55">
+                Le client consulte le devis et clique sur « J&apos;accepte » : le devis passe en « Accepté » et vous recevez une alerte.
+              </p>
+              {online.accepted_at ? (
+                <p className="mb-4 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+                  Accepté en ligne par {online.accepted_by} le {formatInquiryDate(online.accepted_at)}.
+                </p>
+              ) : null}
+              <QuoteShare
+                url={`${process.env.NODE_ENV === "production" ? site.url : "http://localhost:3000"}/devis/${online.public_token}`}
+                number={doc.number}
+                whatsapp={whatsappNumber(onlineClient?.phone ?? null)}
+                email={onlineClient?.email ?? null}
+                firstName={onlineClient?.name.trim().split(/\s+/)[0] ?? ""}
+              />
+            </>
+          ) : (
+            <p className="mt-1 text-sm text-amber-200">Exécutez supabase/devis-en-ligne.sql dans Supabase pour activer le lien d&apos;acceptation en ligne.</p>
+          )}
+        </section>
       ) : null}
       <DocumentForm key={doc?.id ?? "new"} kind={kind} draft={draft} clients={clientOptions} suggestions={suggestions} />
     </>

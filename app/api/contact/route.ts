@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { z } from "zod";
 import { contactSchema } from "@/lib/contact-schema";
 import { screenInquiry } from "@/lib/contact-filter";
+import { sendAlert } from "@/lib/mailer";
 import { site } from "@/lib/site";
 import { createAnonSupabase, createServiceSupabase } from "@/lib/supabase/server";
 
@@ -96,5 +97,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "L'envoi a échoué. Réessayez dans un instant." }, { status: 500 });
   }
 
+  after(() =>
+    sendAlert({
+      subject: `Nouvelle demande : ${row.name}${row.company ? ` (${row.company})` : ""}`,
+      rows: [
+        ["Nom", row.name],
+        ["Entreprise", row.company],
+        ["E-mail", row.email],
+        ["Téléphone", row.phone],
+        ["Service", row.service],
+      ],
+      message: row.message,
+      link: { label: "Ouvrir les demandes", path: "/admin/demandes?statut=new" },
+      replyTo: row.email,
+    }),
+  );
   return NextResponse.json({ ok: true });
 }

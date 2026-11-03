@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Mail, Phone, Plus, Printer, Search } from "lucide-react";
+import { ArrowLeft, CalendarDays, Mail, Phone, Plus, Printer, Search } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/Brand";
 import { ConfirmSubmit } from "@/components/admin/ConfirmSubmit";
 import { Flash } from "@/components/admin/Flash";
@@ -317,6 +317,10 @@ async function ClientDetail({ id, query, supabase }: { id: string; query: Query;
         <Link href={`/admin/factures?id=nouveau&client=${client.id}`} className={cn(ghostButton, "gap-1.5")}>
           <Plus size={13} aria-hidden="true" />
           Nouvelle facture
+        </Link>
+        <Link href={`/admin/calendrier?jour=${today}&client=${client.id}`} className={cn(ghostButton, "gap-1.5")}>
+          <CalendarDays size={13} aria-hidden="true" />
+          Planifier
         </Link>
       </div>
 
