@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { CustomCursor } from "@/components/layout/CustomCursor";
+import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { Loader } from "@/components/layout/Loader";
 import { getPublicSettings, getSeoSettings } from "@/lib/public-data";
 import { jsonLdString, localBusinessJsonLd } from "@/lib/seo";
@@ -42,6 +43,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
         <Footer />
         <FloatingActions />
         <CustomCursor />
+        <GoogleAnalytics />
       </PublicSettingsProvider>
     </Providers>
   );

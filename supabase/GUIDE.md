@@ -27,3 +27,7 @@ on conflict (id) do update set role = 'admin';
 8. Relancez `npm run dev`, ouvrez `http://localhost:3001/admin/login` et connectez-vous.
 
 Le site public ne change pas tant que les listes FAQ, références et galerie sont vides : il garde le contenu actuel. La première fiche publiée dans un de ces modules remplace la liste correspondante. Les articles de blog s’ajoutent à `/blog`. Les paramètres (téléphone, WhatsApp, e-mail, réseaux, SEO, `llms.txt`) s’appliquent dès l’enregistrement.
+
+## CRM, devis et factures
+
+Exécutez une fois `supabase/crm-devis-factures.sql` dans **SQL Editor**. Il crée les fiches clients, l’historique des échanges, les devis, les factures et leur numérotation (`DEV-2026-001`, `FAC-2026-001`). Tout reste réservé aux comptes admin. Remplissez ensuite **Paramètres → Facturation** (raison sociale, ICE, RC, IF, RIB) : ces mentions s’impriment sur chaque document.

@@ -397,7 +397,7 @@ export function Hero() {
         >
           <div className="container-x text-center">
             <p className="eyebrow !text-[#7aa3f0]">Nos 4 univers</p>
-            <p className="mx-auto mt-6 max-w-5xl font-display text-[clamp(1.9rem,5.2vw,4.6rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
+            <p className="mx-auto mt-6 max-w-5xl font-display text-[clamp(1.9rem,5.2vw,4.6rem)] font-semibold leading-[1.06] tracking-[-0.03em] text-white">
               {statementWords.map((word, i) => (
                 <span key={i} data-word className="inline-block opacity-[0.14]">
                   {word}

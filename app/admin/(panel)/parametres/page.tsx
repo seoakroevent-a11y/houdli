@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { CountedField } from "@/components/admin/CountedField";
 import { Flash } from "@/components/admin/Flash";
 import { ImageField } from "@/components/admin/ImageField";
 import { PageHeader } from "@/components/admin/PageHeader";
-import { fieldClass, labelClass, primaryButton } from "@/components/admin/styles";
+import { fieldClass, ghostButton, labelClass, primaryButton } from "@/components/admin/styles";
 import { saveSettings } from "@/lib/admin/settings";
 import { defaultLlms } from "@/lib/public-data";
 import { site } from "@/lib/site";
 import { createServerSupabase } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
 
 export const instant = false;
 
@@ -26,6 +28,9 @@ export default async function ParametresPage({
         text="Coordonnées, réseaux, SEO et GEO. Les champs vides laissent les valeurs actuelles du site."
       />
       <Flash ok={query.ok} error={query.error} />
+      <Link href="/admin/parametres/facturation" className={cn(ghostButton, "mb-6")}>
+        Mentions légales des devis et factures (ICE, RC, IF, RIB) →
+      </Link>
       <form action={saveSettings} className="grid max-w-3xl gap-8">
         <section className="grid gap-4 rounded-xl border border-white/10 bg-[#111111] p-5 sm:p-6">
           <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em]">Contact</h2>

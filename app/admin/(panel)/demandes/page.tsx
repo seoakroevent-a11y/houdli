@@ -2,6 +2,7 @@ import Link from "next/link";
 import { WhatsappIcon } from "@/components/icons/Brand";
 import { ConfirmSubmit } from "@/components/admin/ConfirmSubmit";
 import { Flash } from "@/components/admin/Flash";
+import { InquiryActions } from "@/components/admin/InquiryActions";
 import { InquiryDialog, type InquiryView } from "@/components/admin/InquiryDialog";
 import { InquiryStatusSelect } from "@/components/admin/InquiryStatusSelect";
 import { PageHeader } from "@/components/admin/PageHeader";
@@ -165,10 +166,13 @@ export default async function DemandesPage({
                         <span className={cn(ghostButton, "cursor-not-allowed opacity-50")}>Pas de numéro</span>
                       )}
                     </div>
-                    <form action={deleteInquiry} className="mt-2">
-                      <input type="hidden" name="id" value={row.id} />
-                      <ConfirmSubmit label={`Supprimer la demande de ${row.name} ?`} />
-                    </form>
+                    <InquiryActions id={row.id} className="mt-2" />
+                    <div className="mt-2">
+                      <form action={deleteInquiry}>
+                        <input type="hidden" name="id" value={row.id} />
+                        <ConfirmSubmit label={`Supprimer la demande de ${row.name} ?`} />
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))

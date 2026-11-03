@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from "react";
 import { Building2, Mail, Phone, X } from "lucide-react";
 import { WhatsappIcon } from "@/components/icons/Brand";
 import type { InquiryStatus } from "@/lib/admin/inquiries";
+import { InquiryActions } from "./InquiryActions";
 import { InquiryStatusSelect } from "./InquiryStatusSelect";
 import { ghostButton, whatsappButton } from "./styles";
 
@@ -119,6 +120,9 @@ export function InquiryDialog({ inquiry, back }: { inquiry: InquiryView; back: s
           </Section>
           <Section title="Statut">
             <InquiryStatusSelect key={inquiry.status} id={inquiry.id} status={inquiry.status} back={back} />
+          </Section>
+          <Section title="Suite à donner">
+            <InquiryActions id={inquiry.id} className="pb-3" />
           </Section>
         </div>
       </dialog>
