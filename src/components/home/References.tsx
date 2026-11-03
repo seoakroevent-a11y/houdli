@@ -31,6 +31,8 @@ export function References({ logos = clientLogos }: { logos?: ClientLogo[] }) {
                 alt={client.name}
                 width={280}
                 height={112}
+                loading="lazy"
+                decoding="async"
                 className="h-14 w-auto max-w-full object-contain sm:h-16"
               />
             </div>

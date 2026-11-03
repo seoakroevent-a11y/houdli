@@ -247,7 +247,7 @@ html.theme-transition *::after {
 }
 
 .loader-failsafe {
-  animation: loader-failsafe 0.4s ease 3s forwards;
+  animation: loader-failsafe 0.4s ease 1.5s forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

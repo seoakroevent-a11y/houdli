@@ -46,9 +46,11 @@ export function Hero() {
   const { scrollTo } = useSmoothScroll();
   const reduceMotion = useReducedMotion();
   const [slide, setSlide] = useState({ index: 0, prev: -1 });
+  // L'image affichée et les deux suivantes seulement : les 6 visuels plein écran d'un coup pèsent plus d'1 Mo.
+  const [mounted, setMounted] = useState(3);
   // Laisse le temps à l'écran de chargement de se retirer lors du premier affichage.
   const [baseDelay] = useState(() =>
-    typeof performance !== "undefined" && performance.now() < 3000 ? 1.2 : 0.1,
+    typeof performance !== "undefined" && performance.now() < 3000 ? 0.6 : 0.1,
   );
 
   useEffect(() => {
@@ -58,6 +60,10 @@ export function Hero() {
     }, SLIDE_MS);
     return () => window.clearInterval(id);
   }, [reduceMotion]);
+
+  useEffect(() => {
+    setMounted((count) => Math.min(slides.length, Math.max(count, slide.index + 3)));
+  }, [slide.index]);
 
   useIsoLayoutEffect(() => {
     const stage = stageRef.current;
@@ -197,17 +203,19 @@ export function Hero() {
                         animate={{ scale: active ? 1 : 1.18 }}
                         transition={active ? { duration: 2.4, ease: ease.out } : { duration: 0 }}
                       >
-                        <Image
-                          src={s.image.src}
-                          alt={i === 0 ? s.image.alt : ""}
-                          fill
-                          preload={i === 0}
-                          fetchPriority={i === 0 ? "high" : "auto"}
-                          loading="eager"
-                          quality={75}
-                          sizes="100vw"
-                          className="object-cover"
-                        />
+                        {i < mounted ? (
+                          <Image
+                            src={s.image.src}
+                            alt={i === 0 ? s.image.alt : ""}
+                            fill
+                            preload={i === 0}
+                            fetchPriority={i === 0 ? "high" : "low"}
+                            loading={i === 0 ? "eager" : "lazy"}
+                            quality={75}
+                            sizes="100vw"
+                            className="object-cover"
+                          />
+                        ) : null}
                       </motion.div>
                     </motion.div>
                   );

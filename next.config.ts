@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    inlineCss: true,
+  },
   images: {
     qualities: [70, 75, 85],
     formats: ["image/avif", "image/webp"],
