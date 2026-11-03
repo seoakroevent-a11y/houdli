@@ -6,7 +6,7 @@ import { clientIp, createRateLimiter } from "@/lib/rate-limit";
 
 const MAX_BODY = 60_000;
 const DEFAULT_MODEL = "gemini-3.5-flash-lite";
-const FALLBACK_MODEL = "gemini-3.1-flash-lite";
+const FALLBACK_MODEL = "gemini-flash-lite-latest";
 const rateLimited = createRateLimiter(30);
 
 const part = z.object({
@@ -54,19 +54,21 @@ export async function POST(request: Request) {
   });
 
   let response: Response | null = null;
+  const failures: string[] = [];
   for (const model of [process.env.GEMINI_MODEL || DEFAULT_MODEL, FALLBACK_MODEL]) {
     response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": key },
       body,
-      signal: AbortSignal.timeout(10_000),
+      signal: AbortSignal.timeout(8_000),
     }).catch(() => null);
     if (response?.ok) break;
+    failures.push(`${model}:${response?.status ?? "timeout"}`);
     console.error(`[lina] ${model} a refusé la requête :`, response?.status ?? "délai dépassé", response ? (await response.text()).slice(0, 200) : "");
   }
 
   if (!response?.ok) {
-    return NextResponse.json({ error: response?.status === 429 ? "quota" : "unavailable" }, { status: 503 });
+    return NextResponse.json({ error: response?.status === 429 ? "quota" : "unavailable", failures }, { status: 503 });
   }
   const data = await response.json();
   const content = data.candidates?.[0]?.content;
