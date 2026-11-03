@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useForm, useWatch, type FieldError } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertCircle, ArrowRight, Check, ChevronDown, Loader2 } from "lucide-react";
 import { contactSchema, type ContactInput } from "@/lib/contact-schema";
+import { registerContactBridge, type ContactDraft } from "@/lib/contact-bridge";
 import { serviceOptions } from "@/content/home";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -138,6 +139,9 @@ export function ContactForm() {
     handleSubmit,
     reset,
     control,
+    setValue,
+    trigger,
+    getFieldState,
     formState: { errors, isSubmitting, dirtyFields },
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
@@ -148,7 +152,7 @@ export function ContactForm() {
 
   const service = useWatch({ control, name: "service" });
 
-  const onSubmit = async (data: ContactInput) => {
+  const send = async (data: ContactInput): Promise<string | null> => {
     setStatus("idle");
     try {
       const res = await fetch("/api/contact", {
@@ -158,17 +162,76 @@ export function ContactForm() {
       });
       if (!res.ok) {
         const payload: { error?: string } | null = await res.json().catch(() => null);
-        setErrorText(payload?.error || DEFAULT_ERROR);
+        const message = payload?.error || DEFAULT_ERROR;
+        setErrorText(message);
         setStatus("error");
-        return;
+        return message;
       }
       setStatus("success");
       reset();
+      return null;
     } catch {
       setErrorText(DEFAULT_ERROR);
       setStatus("error");
+      return DEFAULT_ERROR;
     }
   };
+
+  const onSubmit = async (data: ContactInput) => {
+    await send(data);
+  };
+
+  const bridge = useRef({ setValue, trigger, getFieldState, handleSubmit, send });
+  useEffect(() => {
+    bridge.current = { setValue, trigger, getFieldState, handleSubmit, send };
+  });
+
+  useEffect(
+    () =>
+      registerContactBridge({
+        async fill(draft: ContactDraft) {
+          const form = bridge.current;
+          setStatus("idle");
+          const filled: (keyof ContactDraft)[] = [];
+          const problems: Record<string, string> = {};
+          for (const [key, raw] of Object.entries(draft) as [keyof ContactDraft, string | undefined][]) {
+            const value = raw?.trim();
+            if (!value) continue;
+            if (key === "service") {
+              const option = serviceOptions.find((item) => item.toLowerCase() === value.toLowerCase());
+              if (!option) {
+                problems.service = `Service inconnu. Choix possibles : ${serviceOptions.join(", ")}.`;
+                continue;
+              }
+              form.setValue("service", option, { shouldDirty: true, shouldTouch: true });
+            } else {
+              form.setValue(key, value, { shouldDirty: true, shouldTouch: true });
+            }
+            filled.push(key);
+          }
+          if (filled.length) await form.trigger(filled);
+          for (const key of filled) {
+            const message = form.getFieldState(key).error?.message;
+            if (message) problems[key] = message;
+          }
+          return problems;
+        },
+        submit: () =>
+          new Promise<string | null>((resolve) => {
+            const form = bridge.current;
+            void form.handleSubmit(
+              async (data) => resolve(await form.send(data)),
+              (invalid) =>
+                resolve(
+                  Object.entries(invalid)
+                    .map(([key, error]) => `${key} : ${error?.message ?? "invalide"}`)
+                    .join(" ; "),
+                ),
+            )();
+          }),
+      }),
+    [],
+  );
 
   const aria = (name: keyof ContactInput) => ({
     "aria-invalid": errors[name] ? true : undefined,

@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
+import { VoiceAgent } from "@/components/layout/VoiceAgent";
 import { Loader } from "@/components/layout/Loader";
 import { getPublicSettings, getSeoSettings } from "@/lib/public-data";
 import { jsonLdString, localBusinessJsonLd } from "@/lib/seo";
@@ -42,6 +43,15 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
         <main id="contenu">{children}</main>
         <Footer />
         <FloatingActions />
+        <VoiceAgent
+          engine={
+            process.env.NEXT_PUBLIC_LINA_ENGINE === "elevenlabs" && process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID
+              ? "elevenlabs"
+              : process.env.GEMINI_API_KEY
+                ? "browser"
+                : null
+          }
+        />
         <CustomCursor />
         <GoogleAnalytics />
       </PublicSettingsProvider>

@@ -7,11 +7,17 @@ export function escapeHtml(value: string) {
 
 type Alert = { subject: string; rows: [string, string | null | undefined][]; message?: string | null; link: { label: string; path: string }; replyTo?: string };
 
+/** Alerte interne envoyée par e-mail et par WhatsApp, selon les canaux configurés. */
+export async function sendAlert(alert: Alert) {
+  const [email, whatsapp] = await Promise.all([sendEmail(alert), sendWhatsApp(alert)]);
+  return email || whatsapp;
+}
+
 /**
- * Alerte interne via l'API Resend. Sans `RESEND_API_KEY` et `ALERT_EMAIL`, rien n'est envoyé.
+ * E-mail via l'API Resend. Sans `RESEND_API_KEY` et `ALERT_EMAIL`, rien n'est envoyé.
  * Sans domaine vérifié chez Resend, l'expéditeur par défaut ne peut écrire qu'à l'adresse du compte Resend.
  */
-export async function sendAlert({ subject, rows, message, link, replyTo }: Alert) {
+async function sendEmail({ subject, rows, message, link, replyTo }: Alert) {
   const key = process.env.RESEND_API_KEY;
   const to = process.env.ALERT_EMAIL?.split(",").map((value) => value.trim()).filter(Boolean);
   if (!key || !to?.length) return false;
@@ -34,10 +40,40 @@ ${message ? `<p style="margin:16px 0 0;padding:12px 16px;background:#f4f5fb;bord
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({ from: process.env.ALERT_FROM || `${site.name} <onboarding@resend.dev>`, to, subject, html, text, reply_to: replyTo }),
     });
-    if (!response.ok) console.error("[alerte] Envoi refusé par Resend :", response.status, await response.text());
+    if (!response.ok) console.error("[alerte] E-mail refusé par Resend :", response.status, await response.text());
     return response.ok;
   } catch (error) {
-    console.error("[alerte] Envoi impossible :", error);
+    console.error("[alerte] E-mail impossible :", error);
+    return false;
+  }
+}
+
+/**
+ * WhatsApp via CallMeBot, uniquement vers le numéro qui a activé la clé.
+ * Sans `WHATSAPP_PHONE` et `CALLMEBOT_API_KEY`, rien n'est envoyé.
+ */
+async function sendWhatsApp({ subject, rows, message, link }: Alert) {
+  const phone = process.env.WHATSAPP_PHONE?.replace(/[^\d+]/g, "");
+  const key = process.env.CALLMEBOT_API_KEY;
+  if (!phone || !key) return false;
+
+  const excerpt = message && message.length > 500 ? `${message.slice(0, 500)}…` : message;
+  const text = [
+    `*${subject}*`,
+    "",
+    ...rows.filter(([, value]) => value).map(([label, value]) => `${label} : ${value}`),
+    excerpt ? `\n${excerpt}` : "",
+    "",
+    `${link.label} : ${site.url}${link.path}`,
+  ].join("\n");
+  const params = new URLSearchParams({ phone, text, apikey: key });
+
+  try {
+    const response = await fetch(`https://api.callmebot.com/whatsapp.php?${params}`, { signal: AbortSignal.timeout(15_000) });
+    if (!response.ok) console.error("[alerte] WhatsApp refusé par CallMeBot :", response.status);
+    return response.ok;
+  } catch (error) {
+    console.error("[alerte] WhatsApp impossible :", error);
     return false;
   }
 }
