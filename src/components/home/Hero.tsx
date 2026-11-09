@@ -257,7 +257,7 @@ export function Hero() {
 
           {/* Scène centrale : titre géant autour de la fenêtre */}
           <div className="relative flex-1">
-            <p className="pointer-events-none font-display text-[clamp(3.1rem,13.5vw,12rem)] font-bold leading-[0.9] tracking-[-0.045em]">
+            <p className="pointer-events-none font-display text-[clamp(2.2rem,7.8vw,7rem)] font-bold leading-[0.9] tracking-[-0.045em]">
               <span className="sr-only">{hero.title.join(" ")}</span>
               <span ref={line1Ref} aria-hidden="true" className="absolute left-0 top-[6%] block whitespace-nowrap">
                 {renderLine(hero.lines[0])}
@@ -281,7 +281,7 @@ export function Hero() {
 
             <div
               ref={frameRef}
-              className="absolute left-1/2 top-1/2 aspect-[4/5] h-[46svh] -translate-x-1/2 -translate-y-1/2 sm:h-[56svh]"
+              className="absolute left-1/2 top-1/2 aspect-[4/3] w-[78vw] -translate-x-1/2 -translate-y-1/2 sm:aspect-[3/2] sm:w-[min(70svh,53vw)]"
             >
               {/* Arc et point du logo, en orbite autour de la fenêtre */}
               <div ref={arcRef} aria-hidden="true" className="pointer-events-none absolute -inset-[16%]">
@@ -317,7 +317,7 @@ export function Hero() {
 
               <div
                 ref={captionRef}
-                className="absolute left-0 right-0 top-full mt-3 hidden lg:left-full lg:right-auto lg:top-1/2 lg:ml-[14%] lg:mt-0 lg:block lg:w-[19rem] lg:-translate-y-1/2"
+                className="absolute left-0 right-0 top-full mt-3 hidden xl:left-full xl:right-auto xl:top-1/2 xl:ml-[6%] xl:mt-0 xl:block xl:w-[17rem] xl:-translate-y-1/2"
               >
               <motion.div
                 className="font-display text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[0.68rem] dark:text-white"
