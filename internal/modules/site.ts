@@ -3,7 +3,7 @@
  * Modifiez ces valeurs pour mettre à jour l'ensemble du site.
  */
 export const site = {
-  name: "Houdli",
+  name: "Houd-Li",
   slogan: "De l'idée à l'impact",
   url: "https://www.houdli.ma",
   description:
@@ -14,7 +14,7 @@ export const site = {
     phoneDisplay: "06 61 68 59 01",
     phoneHref: "tel:+212661685901",
     whatsapp: "212661685901",
-    whatsappMessage: "Bonjour Houdli, je souhaite échanger sur un projet événementiel.",
+    whatsappMessage: "Bonjour Houd-Li, je souhaite échanger sur un projet événementiel.",
     city: "Casablanca",
     country: "MA",
     area: "Casablanca — tout le Maroc",

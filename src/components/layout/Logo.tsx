@@ -15,7 +15,7 @@ const RATIO = 950 / 640;
 export function Logo({ className, height = 48, tone = "auto", eager = false }: LogoProps) {
   const width = Math.round(height * RATIO);
   const common = { width, height, unoptimized: true, loading: eager ? ("eager" as const) : undefined };
-  const alt = "Houdli — De l'idée à l'impact";
+  const alt = "Houd-Li — De l'idée à l'impact";
 
   if (tone === "light") {
     return <Image src="/logo/houdli-white.svg" alt={alt} className={className} {...common} />;

@@ -7,7 +7,7 @@ import { ease } from "@/lib/motion";
 
 const TOTAL_MS = 600;
 
-/** Écran de chargement : le monogramme Houdli se dessine puis révèle le site. */
+/** Écran de chargement : le monogramme Houd-Li se dessine puis révèle le site. */
 export function Loader() {
   const [done, setDone] = useState(false);
   const reduce = useReducedMotion();
@@ -23,7 +23,7 @@ export function Loader() {
         <motion.div
           key="loader"
           role="status"
-          aria-label="Chargement du site Houdli"
+          aria-label="Chargement du site Houd-Li"
           className="loader-failsafe fixed inset-0 z-[200] flex items-center justify-center bg-black"
           exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
           initial={{ clipPath: "inset(0% 0% 0% 0%)" }}

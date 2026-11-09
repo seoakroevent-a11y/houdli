@@ -51,7 +51,7 @@ export function Header() {
         )}
       >
         <div className="container-x flex h-[72px] items-center justify-between gap-6 lg:h-20">
-          <SmartLink href="/" aria-label="Houdli — Accueil" className="relative z-10 shrink-0 rounded-md">
+          <SmartLink href="/" aria-label="Houd-Li — Accueil" className="relative z-10 shrink-0 rounded-md">
             <Logo height={54} tone={onDark ? "light" : "auto"} eager />
           </SmartLink>
 

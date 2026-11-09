@@ -35,7 +35,7 @@ export const universList: Univers[] = [
     subtitle: "Des événements qui fédèrent et qui marquent",
     short: "Séminaires, galas, lancements, family days : l'organisation complète, de A à Z.",
     description:
-      "De la conception à la coordination le jour J, Houdli prend en charge l'organisation complète de vos événements professionnels et institutionnels. Nous imaginons un concept fidèle à vos objectifs, sélectionnons les lieux et les prestataires, et pilotons toute la logistique pour que vous profitiez pleinement du moment.",
+      "De la conception à la coordination le jour J, Houd-Li prend en charge l'organisation complète de vos événements professionnels et institutionnels. Nous imaginons un concept fidèle à vos objectifs, sélectionnons les lieux et les prestataires, et pilotons toute la logistique pour que vous profitiez pleinement du moment.",
     details: [
       "Un chef de projet dédié, de la recherche du concept jusqu'au bilan.",
       "Technique, print et stands gérés par la même équipe.",
@@ -113,7 +113,7 @@ export const universList: Univers[] = [
     subtitle: "Une image forte, avant, pendant et après",
     short: "Identité visuelle, campagnes, photo, vidéo et réseaux sociaux autour de vos temps forts.",
     description:
-      "Un événement réussi se prépare, se vit et se raconte. Houdli construit une communication cohérente autour de vos temps forts : identité visuelle, campagnes, contenus photo et vidéo, et présence sur les réseaux sociaux pour prolonger l'impact bien après l'événement.",
+      "Un événement réussi se prépare, se vit et se raconte. Houd-Li construit une communication cohérente autour de vos temps forts : identité visuelle, campagnes, contenus photo et vidéo, et présence sur les réseaux sociaux pour prolonger l'impact bien après l'événement.",
     details: [
       "Une communication alignée sur l'événement.",
       "Des créations adaptées à chaque support.",
@@ -189,7 +189,7 @@ export const universList: Univers[] = [
     subtitle: "Des supports soignés, du petit au grand format",
     short: "Corporate, PLV, grands formats et objets personnalisés, jusqu'à la pose sur site.",
     description:
-      "Chaque support compte pour porter votre image. Houdli conçoit et produit l'ensemble de vos imprimés, des documents corporate à la signalétique grand format, dans le respect de votre charte graphique et de vos délais.",
+      "Chaque support compte pour porter votre image. Houd-Li conçoit et produit l'ensemble de vos imprimés, des documents corporate à la signalétique grand format, dans le respect de votre charte graphique et de vos délais.",
     details: [
       "Respect strict de votre charte.",
       "Des délais maîtrisés.",
@@ -227,7 +227,7 @@ export const universList: Univers[] = [
     subtitle: "Des espaces de marque pensés pour attirer et convaincre",
     short: "Conception 3D, fabrication, transport, montage et démontage clés en main.",
     description:
-      "Salons, foires, expositions : votre stand est la vitrine de votre marque. Houdli le conçoit en 3D, le fabrique et l'installe clé en main, avec un objectif simple : capter l'attention de vos visiteurs et valoriser votre identité.",
+      "Salons, foires, expositions : votre stand est la vitrine de votre marque. Houd-Li le conçoit en 3D, le fabrique et l'installe clé en main, avec un objectif simple : capter l'attention de vos visiteurs et valoriser votre identité.",
     details: [
       "Un interlocuteur unique.",
       "Le respect des délais du salon.",
@@ -260,7 +260,7 @@ export const universList: Univers[] = [
   },
 ];
 
-/** Titre (hors « | Houdli ») et description pour Google : la prestation et le lieu, sous 60 et 160 caractères. */
+/** Titre (hors « | Houd-Li ») et description pour Google : la prestation et le lieu, sous 60 et 160 caractères. */
 export const universSeo: Record<UniversSlug, { title: string; description: string; serviceType: string }> = {
   evenementiel: {
     title: "Organisation d'événements d'entreprise à Casablanca",

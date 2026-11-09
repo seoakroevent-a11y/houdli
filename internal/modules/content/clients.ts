@@ -1,5 +1,5 @@
 /**
- * Logos extraits du mur « Ils nous font confiance » (proposition Houdli, p. 22).
+ * Logos extraits du mur « Ils nous font confiance » (proposition Houd-Li, p. 22).
  * Fichiers dans /public/logos/clients.
  */
 export type ClientLogo = {

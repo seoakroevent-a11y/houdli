@@ -103,12 +103,12 @@ async function UniversContent({ params }: { params: PageProps<"/univers/[slug]">
       </Section>
 
       <Section tone="alt" labelledBy="detail-title">
-        <SectionHeading id="detail-title" eyebrow="En détail" title="Prestations, méthode et plus Houdli" accent="plus Houdli" />
+        <SectionHeading id="detail-title" eyebrow="En détail" title="Prestations, méthode et plus Houd-Li" accent="plus Houd-Li" />
         <RevealGroup as="ul" className="mt-14 grid gap-4 lg:grid-cols-3" interval={0.1}>
           {[
             { title: "Nos prestations", items: univers.prestations },
             { title: "Notre méthode", items: univers.method },
-            { title: "Les + Houdli", items: univers.plus },
+            { title: "Les + Houd-Li", items: univers.plus },
           ].map((block) => (
             <RevealItem as="li" key={block.title} className="h-full">
               <Card className="h-full">

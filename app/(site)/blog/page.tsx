@@ -13,7 +13,7 @@ import { formatDate } from "@/lib/admin/format";
 export const metadata: Metadata = pageMetadata({
   title: "Blog événementiel : conseils d'agence au Maroc",
   description:
-    "Le blog Houdli : team building, séminaires, communication, lumière et sono, print et stands. Des conseils d'agence pour vos événements au Maroc.",
+    "Le blog Houd-Li : team building, séminaires, communication, lumière et sono, print et stands. Des conseils d'agence pour vos événements au Maroc.",
   path: "/blog",
 });
 
@@ -25,7 +25,7 @@ export default async function BlogPage() {
       <SectionHeading
         id="blog-title"
         as="h1"
-        eyebrow="Le blog Houdli"
+        eyebrow="Le blog Houd-Li"
         title="Idées, tendances & coulisses"
         accent="coulisses"
         text="Conseils pratiques, inspirations et retours d'expérience autour de l'événementiel corporate au Maroc."

@@ -78,7 +78,7 @@ export function defaultLlms() {
 
 > ${site.description}
 
-Houdli (anciennement Houd-Li) est une agence événementielle 360° fondée en ${foundedYear} à Casablanca. Elle conçoit et produit des événements d'entreprise partout au Maroc : séminaires, conventions, soirées de gala, lancements, team building, communication, son et lumière, print et stands. Un chef de projet unique suit chaque événement, du concept au démontage.
+Houd-Li (aussi écrit Houdli) est une agence événementielle 360° fondée en ${foundedYear} à Casablanca. Elle conçoit et produit des événements d'entreprise partout au Maroc : séminaires, conventions, soirées de gala, lancements, team building, communication, son et lumière, print et stands. Un chef de projet unique suit chaque événement, du concept au démontage.
 
 - Site : ${site.url}
 - Zone : ${site.contact.areaDetail}

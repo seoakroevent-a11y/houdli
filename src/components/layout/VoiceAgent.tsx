@@ -173,7 +173,7 @@ export function VoiceAgent({ engine }: { engine: "browser" | "elevenlabs" | null
       const form = contactBridge();
       if (!form) return "Le formulaire n'est pas affiché. Remplissez-le d'abord.";
       const error = await form.submit();
-      return error ? `Envoi impossible : ${error}` : "Demande envoyée à l'équipe Houdli.";
+      return error ? `Envoi impossible : ${error}` : "Demande envoyée à l'équipe Houd-Li.";
     },
   };
 
@@ -263,7 +263,7 @@ export function VoiceAgent({ engine }: { engine: "browser" | "elevenlabs" | null
           <motion.div
             key="panel"
             role="dialog"
-            aria-label="Parler avec Lina, conseillère Houdli"
+            aria-label="Parler avec Lina, conseillère Houd-Li"
             initial={{ opacity: 0, y: 24, scale: 0.85, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: 16, scale: 0.9, filter: "blur(6px)" }}
@@ -281,7 +281,7 @@ export function VoiceAgent({ engine }: { engine: "browser" | "elevenlabs" | null
                 <Orb size={48} level={level} state={state} />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-display text-xs uppercase tracking-[0.2em]">Lina · Houdli</p>
+                <p className="font-display text-xs uppercase tracking-[0.2em]">Lina · Houd-Li</p>
                 <div className="relative mt-0.5 h-5 overflow-hidden" aria-live="polite">
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.p
@@ -408,7 +408,7 @@ export function VoiceAgent({ engine }: { engine: "browser" | "elevenlabs" | null
           onHoverStart={() => setHovered(true)}
           onHoverEnd={() => setHovered(false)}
           aria-expanded={open}
-          aria-label="Parler avec Lina, la conseillère vocale Houdli"
+          aria-label="Parler avec Lina, la conseillère vocale Houd-Li"
           data-cursor="hover"
           initial={{ opacity: 0, scale: 0.4, rotate: -90 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}

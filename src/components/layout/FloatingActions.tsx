@@ -40,7 +40,7 @@ export function FloatingActions() {
         href={whatsappHref}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Discuter avec Houdli sur WhatsApp"
+        aria-label="Discuter avec Houd-Li sur WhatsApp"
         data-cursor="hover"
         initial={{ opacity: 0, scale: 0.6 }}
         animate={{ opacity: 1, scale: 1 }}

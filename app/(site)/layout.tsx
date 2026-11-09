@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: seo.keywords.length ? seo.keywords : undefined,
     openGraph: {
       description: seo.description || undefined,
-      images: seo.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630, alt: "Houdli" }] : undefined,
+      images: seo.ogImage ? [{ url: seo.ogImage, width: 1200, height: 630, alt: "Houd-Li" }] : undefined,
     },
   };
 }

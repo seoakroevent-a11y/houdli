@@ -53,7 +53,7 @@ export function LoginForm() {
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#111111] p-6 sm:p-8">
         <Logo tone="light" height={48} eager />
         <h1 className="mt-6 font-display text-2xl font-bold uppercase tracking-[0.16em]">Administration</h1>
-        <p className="mt-2 text-sm text-white/60">Connexion réservée à l&apos;équipe Houdli.</p>
+        <p className="mt-2 text-sm text-white/60">Connexion réservée à l&apos;équipe Houd-Li.</p>
 
         {configured ? null : (
           <p className="mt-6 rounded-lg border border-amber-300/30 bg-amber-400/10 px-4 py-3 text-sm leading-relaxed text-amber-100">

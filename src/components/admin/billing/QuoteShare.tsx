@@ -10,7 +10,7 @@ type Props = { url: string; number: string; whatsapp: string | null; email: stri
 
 export function QuoteShare({ url, number, whatsapp, email, firstName }: Props) {
   const [copied, setCopied] = useState(false);
-  const message = `Bonjour ${firstName}, voici votre devis ${number} de Houdli. Vous pouvez le consulter et l'accepter en ligne : ${url}`;
+  const message = `Bonjour ${firstName}, voici votre devis ${number} de Houd-Li. Vous pouvez le consulter et l'accepter en ligne : ${url}`;
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -34,7 +34,7 @@ export function QuoteShare({ url, number, whatsapp, email, firstName }: Props) {
         </a>
       ) : null}
       {email ? (
-        <a href={`mailto:${email}?subject=${encodeURIComponent(`Votre devis ${number} — Houdli`)}&body=${encodeURIComponent(message)}`} className={cn(ghostButton, "gap-1.5")}>
+        <a href={`mailto:${email}?subject=${encodeURIComponent(`Votre devis ${number} — Houd-Li`)}&body=${encodeURIComponent(message)}`} className={cn(ghostButton, "gap-1.5")}>
           <Mail size={13} aria-hidden="true" />
           E-mail
         </a>

@@ -58,7 +58,7 @@ export const about = {
   title: "L'agence qui transforme vos idées",
   accent: "en moments forts",
   paragraphs: [
-    "Fondée en 2018 à Casablanca, Houdli est une agence événementielle qui accompagne entreprises, institutions et marques dans la conception et la réalisation de leurs événements, partout au Maroc.",
+    "Fondée en 2018 à Casablanca, Houd-Li est une agence événementielle qui accompagne entreprises, institutions et marques dans la conception et la réalisation de leurs événements, partout au Maroc.",
     "Notre particularité : réunir sous un même toit six métiers complémentaires, de l'événementiel au team building, de la communication à la technique lumière et son, jusqu'au print et à la réalisation de stands. Un seul interlocuteur, du concept au démontage.",
     "Plus de 380 événements et activations plus tard, notre promesse reste la même : de l'idée à l'impact.",
   ],
@@ -72,7 +72,7 @@ export const about = {
 
 export const method = {
   eyebrow: "Notre méthode",
-  title: "Le parcours Houdli, en six étapes",
+  title: "Le parcours Houd-Li, en six étapes",
   accent: "six étapes",
   steps: [
     { index: "01", title: "Brief", text: "Écoute de vos objectifs, cibles et contraintes." },
@@ -132,7 +132,7 @@ export const servicesSection = {
 };
 
 export const whyHoudli = {
-  eyebrow: "Pourquoi Houdli",
+  eyebrow: "Pourquoi Houd-Li",
   title: "Ce qui fait la différence",
   accent: "la différence",
   items: [
@@ -160,8 +160,8 @@ export const whyHoudli = {
 } as const;
 
 export const keyNumbers = {
-  eyebrow: "Houdli en bref",
-  title: "Houdli en chiffres",
+  eyebrow: "Houd-Li en bref",
+  title: "Houd-Li en chiffres",
   accent: "en chiffres",
 };
 

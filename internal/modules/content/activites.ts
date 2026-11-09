@@ -52,7 +52,7 @@ export const activites: Activite[] = [
     objectives: ["Offrir un moment de détente tout en stimulant la pensée « out of the box »"],
     benefits: ["Éveiller le potentiel artistique de chacun", "S'affranchir des cadres conventionnels", "Encourager l'innovation"],
     image: img("la-fresque-geante"),
-    alt: "Collaborateurs peignant une fresque géante lors d'un team building Houdli",
+    alt: "Collaborateurs peignant une fresque géante lors d'un team building Houd-Li",
   },
   {
     slug: "percussion-musicale",
@@ -288,7 +288,7 @@ export const activites: Activite[] = [
     languages: langs,
     tagline: "Osez les fleurs",
     about:
-      "Créez vos propres bouquets et représentez les valeurs de votre entreprise. Un atelier créatif pour apprendre les techniques et astuces des fleuristes et réaliser de magnifiques compositions. Houdli fournit tout le matériel nécessaire : vases, accessoires, fleurs. Les plus belles créations sont exposées avec la dédicace de leurs auteurs, ou repartent avec eux.",
+      "Créez vos propres bouquets et représentez les valeurs de votre entreprise. Un atelier créatif pour apprendre les techniques et astuces des fleuristes et réaliser de magnifiques compositions. Houd-Li fournit tout le matériel nécessaire : vases, accessoires, fleurs. Les plus belles créations sont exposées avec la dédicace de leurs auteurs, ou repartent avec eux.",
     objectives: ["Stimuler la créativité", "Développer les compétences artistiques et manuelles", "Créer une ambiance apaisante", "Renforcer la sensibilité esthétique"],
     benefits: ["Bénéficier du savoir-faire d'un créateur floral lors d'un atelier participatif"],
     image: img("art-floral"),
@@ -343,7 +343,7 @@ export const activites: Activite[] = [
     objectives: ["Renforcer la cohésion d'équipe", "Développer la communication", "Stimuler la créativité", "Relever les défis ensemble"],
     benefits: ["Un moral au beau fixe", "Une meilleure collaboration", "Une identité d'entreprise renforcée"],
     image: img("puzzle-geant"),
-    alt: "Puzzle géant aux couleurs de Houdli assemblé sur une pelouse",
+    alt: "Puzzle géant aux couleurs de Houd-Li assemblé sur une pelouse",
   },
   {
     slug: "trust-trek",

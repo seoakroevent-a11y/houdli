@@ -53,7 +53,7 @@ async function loadInquiries(supabase: Supabase): Promise<InquiryRow[]> {
 function toView(row: InquiryRow): InquiryView {
   const firstName = row.name.trim().split(/\s+/)[0] ?? "";
   const subject = row.service ? ` (${row.service})` : "";
-  const greeting = `Bonjour ${firstName}, ici l'équipe Houdli. Nous revenons vers vous suite à votre demande de devis${subject}.`;
+  const greeting = `Bonjour ${firstName}, ici l'équipe Houd-Li. Nous revenons vers vous suite à votre demande de devis${subject}.`;
   const number = whatsappNumber(row.phone);
   return {
     id: row.id,
@@ -67,7 +67,7 @@ function toView(row: InquiryRow): InquiryView {
     spamReason: row.spam_reason ?? null,
     date: formatInquiryDate(row.created_at),
     whatsappHref: number ? `https://wa.me/${number}?text=${encodeURIComponent(greeting)}` : null,
-    mailHref: `mailto:${row.email}?subject=${encodeURIComponent(`Votre demande de devis${subject} — Houdli`)}`,
+    mailHref: `mailto:${row.email}?subject=${encodeURIComponent(`Votre demande de devis${subject} — Houd-Li`)}`,
   };
 }
 

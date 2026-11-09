@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: { absolute: "Administration | Houdli" },
+  title: { absolute: "Administration | Houd-Li" },
   robots: { index: false, follow: false },
 };
 

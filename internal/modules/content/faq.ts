@@ -5,12 +5,12 @@ export type FaqItem = {
 
 export const faqItems: FaqItem[] = [
   {
-    question: "Quels types d'événements organise Houdli ?",
+    question: "Quels types d'événements organise Houd-Li ?",
     answer:
-      "Houdli réunit six métiers : événementiel, team building, communication, lumière & sono, print et réalisation de stands. Nous concevons séminaires, conventions, soirées de gala, lancements, inaugurations, family days, safety days et activations de marque, partout au Maroc.",
+      "Houd-Li réunit six métiers : événementiel, team building, communication, lumière & sono, print et réalisation de stands. Nous concevons séminaires, conventions, soirées de gala, lancements, inaugurations, family days, safety days et activations de marque, partout au Maroc.",
   },
   {
-    question: "Pourquoi faire appel à Houdli plutôt qu'à plusieurs prestataires ?",
+    question: "Pourquoi faire appel à Houd-Li plutôt qu'à plusieurs prestataires ?",
     answer:
       "Un seul interlocuteur, du concept au démontage. Technique, print, stands et animation sont gérés par la même équipe : vous gagnez du temps, vous maîtrisez votre budget, et le fil créatif reste cohérent du brief jusqu'au bilan.",
   },
@@ -30,7 +30,7 @@ export const faqItems: FaqItem[] = [
       "Oui. Lumière, sono, murs LED, régie, supports print, signalétique et stands 3D clés en main font partie de nos métiers. Vous n'avez pas besoin d'un prestataire séparé pour chaque discipline.",
   },
   {
-    question: "Comment se déroule un projet avec Houdli ?",
+    question: "Comment se déroule un projet avec Houd-Li ?",
     answer:
       "Six étapes : brief, concept, design, production, jour J, puis bilan. Nous commençons par comprendre vos objectifs, votre public et vos contraintes, puis nous concevons, produisons et pilotons l'événement jusqu'aux indicateurs de fin.",
   },
@@ -45,7 +45,7 @@ export const faqItems: FaqItem[] = [
       "Le coût dépend du format, du nombre de participants, de la durée, du lieu et des prestations techniques. Nous établissons un devis personnalisé après le brief — contactez-nous au 06 61 68 59 01 ou à contact@houdli.ma.",
   },
   {
-    question: "Pourquoi choisir Houdli ?",
+    question: "Pourquoi choisir Houd-Li ?",
     answer:
       "Des concepts sur mesure, des expériences immersives, six métiers sous un même toit, et un impact mesuré. Plus de 380 événements réalisés depuis 2018, pour plus de 30 marques de référence.",
   },

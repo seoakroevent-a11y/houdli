@@ -15,7 +15,7 @@ const local = (file: string) => `/images/activites/${file}.jpg`;
 export const images = {
   hero: {
     src: local("karaoke"),
-    alt: "Scène de karaoké animée lors d'une soirée d'entreprise Houdli",
+    alt: "Scène de karaoké animée lors d'une soirée d'entreprise Houd-Li",
   },
   about: {
     src: local("lets-dance"),
@@ -28,7 +28,7 @@ export const images = {
     },
     "team-building": {
       src: local("olympiades"),
-      alt: "Course d'équipes lors d'olympiades organisées par Houdli",
+      alt: "Course d'équipes lors d'olympiades organisées par Houd-Li",
     },
     communication: {
       src: unsplash("1492691527719-9d1e07e534b4"),
@@ -80,17 +80,17 @@ export const images = {
     ],
   },
   why: [
-    { src: local("lets-dance"), alt: "Piste de danse lors d'un team building Houdli" },
+    { src: local("lets-dance"), alt: "Piste de danse lors d'un team building Houd-Li" },
     { src: local("la-fresque-geante"), alt: "Fresque collective réalisée en équipe" },
     { src: local("rallye-berbere-challenge"), alt: "Cercle autour du feu lors d'une expérience immersive" },
   ],
   cta: {
     src: local("logo-humain"),
-    alt: "Collaborateurs formant le logo Houdli dans le désert",
+    alt: "Collaborateurs formant le logo Houd-Li dans le désert",
   },
   og: {
     src: local("lets-dance"),
-    alt: "Houdli — agence événementielle à Casablanca",
+    alt: "Houd-Li — agence événementielle à Casablanca",
   },
 } as const;
 

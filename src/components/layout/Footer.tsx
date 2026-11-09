@@ -25,7 +25,7 @@ export function Footer() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" />
       <div className="container-x grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:py-20">
         <div>
-          <SmartLink href="/" aria-label="Houdli — Accueil" className="inline-block rounded-md">
+          <SmartLink href="/" aria-label="Houd-Li — Accueil" className="inline-block rounded-md">
             <Logo height={64} eager />
           </SmartLink>
           <p className="eyebrow mt-6">{site.slogan}</p>
@@ -97,7 +97,7 @@ export function Footer() {
       <div className="border-t border-line">
         <div className="container-x flex flex-col items-center gap-3 py-6 text-center text-xs text-muted">
           <p>
-            © <CurrentYear /> Houdli. Tous droits réservés.
+            © <CurrentYear /> Houd-Li. Tous droits réservés.
           </p>
           <a
             href="https://www.vsnstudios.ma/"

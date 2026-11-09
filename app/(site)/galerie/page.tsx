@@ -9,7 +9,7 @@ import { getPublishedGallery } from "@/lib/public-data";
 export const metadata: Metadata = pageMetadata({
   title: "Galerie : nos événements au Maroc en images",
   description:
-    "Team building, événements d'entreprise, communication et stands réalisés par Houdli à Casablanca et partout au Maroc : nos réalisations en images.",
+    "Team building, événements d'entreprise, communication et stands réalisés par Houd-Li à Casablanca et partout au Maroc : nos réalisations en images.",
   path: "/galerie",
 });
 

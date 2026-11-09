@@ -18,7 +18,7 @@ export function References({ logos = clientLogos }: { logos?: ClientLogo[] }) {
       <div className="relative left-1/2 mt-8 w-screen max-w-[100vw] -translate-x-1/2 sm:mt-10">
         <Marquee
           duration={55}
-          label="Logos des références Houdli"
+          label="Logos des références Houd-Li"
           className="motion-reduce:overflow-x-auto motion-reduce:[mask-image:none]"
         >
           {logos.map((client) => (
