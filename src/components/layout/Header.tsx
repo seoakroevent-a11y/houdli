@@ -10,6 +10,7 @@ import { ease } from "@/lib/motion";
 import { useScrolledPast } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
+import { ServicesMenu } from "./ServicesMenu";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -56,17 +57,14 @@ export function Header() {
 
           <nav aria-label="Navigation principale" className="hidden lg:block">
             <ul className="flex items-center gap-8">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <SmartLink
-                    href={link.href}
-                    aria-current={isActive(link.href) ? "page" : undefined}
-                    className={cn(
-                      "group/nav relative py-2 text-sm font-medium transition-colors",
-                      onDark ? "text-white/80 hover:text-white" : "text-muted hover:text-fg",
-                      isActive(link.href) && (onDark ? "text-white" : "text-fg"),
-                    )}
-                  >
+              {links.map((link) => {
+                const className = cn(
+                  "group/nav relative py-2 text-sm font-medium transition-colors",
+                  onDark ? "text-white/80 hover:text-white" : "text-muted hover:text-fg",
+                  isActive(link.href) && (onDark ? "text-white" : "text-fg"),
+                );
+                const label = (
+                  <>
                     {link.label}
                     <span
                       aria-hidden="true"
@@ -75,9 +73,20 @@ export function Header() {
                         isActive(link.href) && "scale-x-100",
                       )}
                     />
-                  </SmartLink>
-                </li>
-              ))}
+                  </>
+                );
+                return link.href === "/#services" ? (
+                  <ServicesMenu key={link.href} href={link.href} className={className}>
+                    {label}
+                  </ServicesMenu>
+                ) : (
+                  <li key={link.href}>
+                    <SmartLink href={link.href} aria-current={isActive(link.href) ? "page" : undefined} className={className}>
+                      {label}
+                    </SmartLink>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 

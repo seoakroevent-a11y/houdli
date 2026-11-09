@@ -36,7 +36,7 @@ export type Stat = {
 };
 
 export const stats: Stat[] = [
-  { value: 600, prefix: "+", label: "Événements réalisés" },
+  { value: 380, prefix: "+", label: "Événements réalisés" },
   { value: 30, prefix: "+", label: "Marques de référence" },
   { value: 8, label: "Ans d'expérience" },
   { value: 6, label: "Métiers réunis" },

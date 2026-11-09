@@ -48,7 +48,7 @@ export const marqueeItems = [
   "Lumière & sono",
   "Print",
   "Stands",
-  "600+ événements",
+  "380+ événements",
   "30+ marques",
   "Casablanca",
 ];
@@ -60,7 +60,7 @@ export const about = {
   paragraphs: [
     "Fondée en 2018 à Casablanca, Houdli est une agence événementielle qui accompagne entreprises, institutions et marques dans la conception et la réalisation de leurs événements, partout au Maroc.",
     "Notre particularité : réunir sous un même toit six métiers complémentaires, de l'événementiel au team building, de la communication à la technique lumière et son, jusqu'au print et à la réalisation de stands. Un seul interlocuteur, du concept au démontage.",
-    "Plus de 600 événements et activations plus tard, notre promesse reste la même : de l'idée à l'impact.",
+    "Plus de 380 événements et activations plus tard, notre promesse reste la même : de l'idée à l'impact.",
   ],
   highlight: "de l'idée à l'impact",
   badgeTitle: "Ans d'expérience",

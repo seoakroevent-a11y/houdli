@@ -281,7 +281,7 @@ export function Hero() {
 
             <div
               ref={frameRef}
-              className="absolute left-1/2 top-1/2 aspect-[4/5] h-[36svh] -translate-x-1/2 -translate-y-1/2 sm:h-[44svh]"
+              className="absolute left-1/2 top-1/2 aspect-[4/5] h-[46svh] -translate-x-1/2 -translate-y-1/2 sm:h-[56svh]"
             >
               {/* Arc et point du logo, en orbite autour de la fenêtre */}
               <div ref={arcRef} aria-hidden="true" className="pointer-events-none absolute -inset-[16%]">
@@ -317,7 +317,7 @@ export function Hero() {
 
               <div
                 ref={captionRef}
-                className="absolute left-0 right-0 top-full mt-3 hidden lg:left-full lg:right-auto lg:top-1/2 lg:ml-[22%] lg:mt-0 lg:block lg:w-[19rem] lg:-translate-y-1/2"
+                className="absolute left-0 right-0 top-full mt-3 hidden lg:left-full lg:right-auto lg:top-1/2 lg:ml-[14%] lg:mt-0 lg:block lg:w-[19rem] lg:-translate-y-1/2"
               >
               <motion.div
                 className="font-display text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[0.68rem] dark:text-white"

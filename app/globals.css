@@ -226,18 +226,6 @@ html.theme-transition *::after {
   }
 }
 
-@media (pointer: fine) {
-  .has-custom-cursor,
-  .has-custom-cursor * {
-    cursor: none !important;
-  }
-
-  .has-custom-cursor input,
-  .has-custom-cursor textarea {
-    cursor: text !important;
-  }
-}
-
 /* Si le JavaScript ne s'exécute pas, l'écran de chargement disparaît quand même */
 @keyframes loader-failsafe {
   to {

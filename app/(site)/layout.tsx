@@ -5,7 +5,6 @@ import { PublicSettingsProvider } from "@/components/providers/PublicSettings";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
-import { CustomCursor } from "@/components/layout/CustomCursor";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { VoiceAgent } from "@/components/layout/VoiceAgent";
 import { Loader } from "@/components/layout/Loader";
@@ -52,7 +51,6 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
                 : null
           }
         />
-        <CustomCursor />
         <GoogleAnalytics />
       </PublicSettingsProvider>
     </Providers>

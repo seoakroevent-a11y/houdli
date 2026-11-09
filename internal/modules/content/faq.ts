@@ -47,7 +47,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Pourquoi choisir Houdli ?",
     answer:
-      "Des concepts sur mesure, des expériences immersives, six métiers sous un même toit, et un impact mesuré. Plus de 600 événements réalisés depuis 2018, pour plus de 30 marques de référence.",
+      "Des concepts sur mesure, des expériences immersives, six métiers sous un même toit, et un impact mesuré. Plus de 380 événements réalisés depuis 2018, pour plus de 30 marques de référence.",
   },
   {
     question: "Comment obtenir un devis ?",
