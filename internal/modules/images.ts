@@ -11,6 +11,7 @@ const unsplash = (id: string, w = 1920) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
 
 const local = (file: string) => `/images/activites/${file}.jpg`;
+const univers = (file: string) => `/images/univers/${file}.jpg`;
 
 export const images = {
   hero: {
@@ -35,16 +36,16 @@ export const images = {
       alt: "Réalisateur et cadreur en train de filmer un événement",
     },
     "lumiere-sono": {
-      src: unsplash("1501281668745-f7f57925c3b4"),
-      alt: "Scène de concert baignée de lumières bleues",
+      src: univers("lumiere-sono"),
+      alt: "Techniciens Houd-Li à la régie son et lumière devant une scène éclairée",
     },
     print: {
-      src: unsplash("1542744173-8e7e53415bb0"),
-      alt: "Équipe créative autour d'un projet de communication",
+      src: univers("print"),
+      alt: "Atelier d'impression Houd-Li : bâches, kakémonos et supports en finition",
     },
     "realisation-stands": {
-      src: unsplash("1561489396-888724a1543d"),
-      alt: "Espace d'exposition moderne lors d'un salon professionnel",
+      src: univers("realisation-stands"),
+      alt: "Équipe Houd-Li en plein montage d'un stand dans un hall d'exposition",
     },
   },
   universGallery: {
@@ -64,17 +65,17 @@ export const images = {
       { src: unsplash("1556761175-4b46a572b786", 1200), alt: "Équipe de communication en réunion" },
     ],
     "lumiere-sono": [
-      { src: unsplash("1501281668745-f7f57925c3b4", 1200), alt: "Régie lumière sur une scène" },
+      { src: univers("lumiere-sono"), alt: "Régie son et lumière Houd-Li en préparation" },
       { src: unsplash("1470229722913-7c0e2dbbafd3", 1200), alt: "Concert sous des projecteurs" },
       { src: unsplash("1514525253161-7a46d19cd819", 1200), alt: "Public lors d'un spectacle éclairé" },
     ],
     print: [
-      { src: unsplash("1542744173-8e7e53415bb0", 1200), alt: "Atelier de création graphique" },
+      { src: univers("print"), alt: "Impression grand format dans l'atelier Houd-Li" },
       { src: unsplash("1586281380349-632531db7ed4", 1200), alt: "Supports print et documents de travail" },
       { src: unsplash("1450101499163-c8848c66ca85", 1200), alt: "Impression et finitions de supports" },
     ],
     "realisation-stands": [
-      { src: unsplash("1561489396-888724a1543d", 1200), alt: "Stand d'exposition lors d'un salon" },
+      { src: univers("realisation-stands"), alt: "Montage d'un stand sur mesure par l'équipe Houd-Li" },
       { src: unsplash("1600508774634-4e11d34730e2", 1200), alt: "Espace d'accueil au mobilier sur mesure" },
       { src: unsplash("1497366216548-37526070297c", 1200), alt: "Espace épuré prêt à accueillir les visiteurs" },
     ],
