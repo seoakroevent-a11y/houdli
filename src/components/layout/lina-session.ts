@@ -1,3 +1,4 @@
+import { LINA_AUDIO_MAX_BYTES, type TranscriptEntry } from "@/lib/lina-conversations";
 import { linaLanguages, type LinaLanguage } from "@/lib/lina-languages";
 
 type Part = {
@@ -68,6 +69,77 @@ async function pickVoice(lang: string) {
   return candidates.sort((a, b) => quality(b) - quality(a))[0];
 }
 
+type Voice = { bytes: ArrayBuffer; type: string };
+
+/** Voix Gemini : null si elle n'est pas disponible, pour basculer sur la voix du navigateur. */
+async function fetchVoice(text: string): Promise<Voice | null> {
+  const response = await fetch("/api/lina/voice", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: text.slice(0, 800) }),
+  }).catch(() => null);
+  if (!response?.ok) return null;
+  const bytes = await response.arrayBuffer().catch(() => null);
+  return bytes ? { bytes, type: response.headers.get("Content-Type") ?? "" } : null;
+}
+
+/**
+ * Au plus deux appels de synthèse par réponse, pour ménager le quota gratuit de Gemini.
+ * La durée de synthèse croît avec la longueur : la première partie reste une phrase courte.
+ */
+const FIRST_CHUNK_MIN = 12;
+
+function splitForVoice(text: string): string[] {
+  const sentences = text.split(/(?<=[.!?…؟])\s+/).map((sentence) => sentence.trim()).filter(Boolean);
+  let first = "";
+  let index = 0;
+  while (index < sentences.length && first.length < FIRST_CHUNK_MIN) first = `${first} ${sentences[index++]}`.trim();
+  const rest = sentences.slice(index).join(" ");
+  return rest ? [first, rest] : [first];
+}
+
+const actionLabels: Record<string, string> = {
+  navigate_to_page: "Page ouverte",
+  fill_contact_form: "Formulaire rempli",
+  submit_contact_form: "Demande envoyée",
+  end_conversation: "Fin de l'appel",
+};
+
+function describeAction(name: string, args: Record<string, unknown> = {}) {
+  const details = Object.entries(args)
+    .filter(([, value]) => typeof value === "string" && value.trim())
+    .map(([key, value]) => `${key} : ${String(value).trim()}`)
+    .join(", ");
+  return [actionLabels[name] ?? name, details].filter(Boolean).join(" — ").slice(0, 2_000);
+}
+
+/** Opus à 32 kbit/s : environ 1,2 Mo pour un appel de 5 minutes. */
+function startRecorder(stream: MediaStream) {
+  if (typeof MediaRecorder === "undefined") return null;
+  const mimeType = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"].find((type) => MediaRecorder.isTypeSupported(type));
+  try {
+    const recorder = new MediaRecorder(stream, { ...(mimeType ? { mimeType } : {}), audioBitsPerSecond: 32_000 });
+    const chunks: Blob[] = [];
+    recorder.ondataavailable = (event) => {
+      if (event.data.size) chunks.push(event.data);
+    };
+    recorder.start(1_000);
+    return {
+      stop() {
+        return new Promise<Blob | null>((resolve) => {
+          const finish = () => resolve(chunks.length ? new Blob(chunks, { type: recorder.mimeType || mimeType || "audio/webm" }) : null);
+          if (recorder.state === "inactive") return finish();
+          recorder.onstop = finish;
+          setTimeout(finish, 1_500);
+          recorder.stop();
+        });
+      },
+    };
+  } catch {
+    return null;
+  }
+}
+
 /** Conversation vocale gratuite : reconnaissance et synthèse du navigateur, réponses de Gemini via /api/lina. */
 export async function startLinaSession(options: Options): Promise<LinaSession> {
   const available = recognitionClass();
@@ -75,15 +147,24 @@ export async function startLinaSession(options: Options): Promise<LinaSession> {
   const Recognition = available;
 
   const { speech, greeting } = linaLanguages[options.language];
+  const greetingVoice = fetchVoice(greeting);
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   const audio = new AudioContext();
   const analyser = audio.createAnalyser();
   analyser.fftSize = 512;
-  audio.createMediaStreamSource(stream).connect(analyser);
+  const microphone = audio.createMediaStreamSource(stream);
+  microphone.connect(analyser);
   const samples = new Uint8Array(analyser.fftSize);
   const output = audio.createAnalyser();
   output.fftSize = 512;
   output.connect(audio.destination);
+  const mix = audio.createMediaStreamDestination();
+  microphone.connect(mix);
+  output.connect(mix);
+  const recorder = startRecorder(mix.stream);
+  const startedAt = new Date();
+  const page = window.location.pathname;
+  const transcript: TranscriptEntry[] = [];
   const outputSamples = new Uint8Array(output.fftSize);
   await audio.resume().catch(() => {});
   const voice = await pickVoice(speech);
@@ -101,48 +182,82 @@ export async function startLinaSession(options: Options): Promise<LinaSession> {
     options.onModeChange(next);
   }
 
-  async function end() {
+  function note(role: TranscriptEntry["role"], text: string) {
+    const clean = text.trim().slice(0, 2_000);
+    if (clean) transcript.push({ role, text: clean, at: Math.round((Date.now() - startedAt.getTime()) / 100) / 10 });
+  }
+
+  async function end(leaving = false) {
     if (!active) return;
     active = false;
     clearTimeout(timer);
+    window.removeEventListener("pagehide", onLeave);
     recognition?.abort();
     speechSynthesis.cancel();
     source?.stop();
+    const recording = leaving ? null : await recorder?.stop();
     stream.getTracks().forEach((track) => track.stop());
     await audio.close().catch(() => {});
+    save(recording ?? null, leaving);
     options.onDisconnect();
   }
 
-  async function speak(raw: string) {
-    const text = raw.replace(/[*_#`]/g, "").trim();
-    if (!active || !text) return;
-    setMode("speaking");
-    if (await speakCloud(text)) return;
-    if (active) await speakBrowser(text);
+  /** En quittant la page, seul le texte part (sendBeacon est limité à 64 Ko). */
+  function onLeave() {
+    void end(true);
+  }
+  window.addEventListener("pagehide", onLeave);
+
+  function save(recording: Blob | null, leaving: boolean) {
+    if (!transcript.some((entry) => entry.role === "client")) return;
+    const body = new FormData();
+    body.set(
+      "meta",
+      JSON.stringify({ language: options.language, startedAt: startedAt.toISOString(), endedAt: new Date().toISOString(), page, transcript: transcript.slice(-200) }),
+    );
+    if (recording && recording.size <= LINA_AUDIO_MAX_BYTES) body.set("audio", recording, "conversation");
+    if (leaving) navigator.sendBeacon("/api/lina/conversations", body);
+    else void fetch("/api/lina/conversations", { method: "POST", body }).catch(() => {});
   }
 
-  /** Voix Gemini : renvoie false si elle n'est pas disponible, pour basculer sur la voix du navigateur. */
-  async function speakCloud(text: string) {
-    const response = await fetch("/api/lina/voice", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: text.slice(0, 800) }),
-    }).catch(() => null);
-    if (!response?.ok || !active) return false;
-    const type = response.headers.get("Content-Type") ?? "";
-    const bytes = await response.arrayBuffer();
-    const buffer = /l16|pcm/i.test(type) ? pcmBuffer(bytes, Number(/rate=(\d+)/.exec(type)?.[1] ?? 24_000)) : await audio.decodeAudioData(bytes).catch(() => null);
-    if (!buffer || !active) return Boolean(buffer);
-    await new Promise<void>((resolve) => {
+  /**
+   * La voix Gemini met 2 à 4 secondes à être générée : le début de la réponse est synthétisé à part
+   * pour que Lina commence à parler pendant que la suite se prépare.
+   */
+  async function speak(raw: string, firstVoice?: Promise<Voice | null>) {
+    const text = raw.replace(/[*_#`]/g, "").trim();
+    if (!active || !text) return;
+    note("lina", text);
+    setMode("speaking");
+    const chunks = firstVoice ? [text] : splitForVoice(text);
+    const pending = chunks.map((chunk, index) => (index === 0 && firstVoice) || fetchVoice(chunk));
+    for (let index = 0; index < chunks.length; index++) {
+      const voiced = await pending[index];
+      if (!active) return;
+      const buffer = voiced && (await decode(voiced));
+      if (!active) return;
+      if (!buffer) return void (await speakBrowser(chunks.slice(index).join(" ")));
+      await play(buffer);
+    }
+  }
+
+  async function decode({ bytes, type }: Voice) {
+    if (/l16|pcm/i.test(type)) return pcmBuffer(bytes, Number(/rate=(\d+)/.exec(type)?.[1] ?? 24_000));
+    return audio.decodeAudioData(bytes).catch(() => null);
+  }
+
+  function play(buffer: AudioBuffer) {
+    return new Promise<void>((resolve) => {
       const current = audio.createBufferSource();
       source = current;
       current.buffer = buffer;
       current.connect(output);
-      current.onended = () => resolve();
+      current.onended = () => {
+        source = null;
+        resolve();
+      };
       current.start();
     });
-    source = null;
-    return true;
   }
 
   function pcmBuffer(bytes: ArrayBuffer, rate: number) {
@@ -211,6 +326,7 @@ export async function startLinaSession(options: Options): Promise<LinaSession> {
 
   async function reply(heard: string) {
     setMode("thinking");
+    note("client", heard);
     contents.push({ role: "user", parts: [{ text: heard.slice(0, 2_000) }] });
     for (let step = 0; step < 4 && active; step++) {
       const content = await ask();
@@ -223,6 +339,7 @@ export async function startLinaSession(options: Options): Promise<LinaSession> {
       await speak(content.parts.map((part) => part.text ?? "").join(" "));
       const calls = content.parts.flatMap((part) => (part.functionCall ? [part.functionCall] : []));
       if (!calls.length) break;
+      calls.forEach((call) => note("action", describeAction(call.name, call.args)));
       if (calls.some((call) => call.name === "end_conversation")) return void end();
       setMode("thinking");
       const responses: Part[] = [];
@@ -237,7 +354,7 @@ export async function startLinaSession(options: Options): Promise<LinaSession> {
   }
 
   options.onConnect();
-  void speak(greeting).then(listen);
+  void speak(greeting, greetingVoice).then(listen);
 
   return {
     endSession: end,

@@ -14,6 +14,7 @@ import {
 import { Mic, PhoneOff, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { contactBridge, type ContactBridge, type ContactDraft } from "@/lib/contact-bridge";
+import { LINA_RETENTION_DAYS } from "@/lib/lina-conversations";
 import { linaLanguages, type LinaLanguage } from "@/lib/lina-languages";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import type { ClientTools, LinaSession } from "./lina-session";
@@ -380,6 +381,12 @@ export function VoiceAgent({ engine }: { engine: "browser" | "elevenlabs" | null
                     <Mic size={16} className="relative" />
                     <span className="relative">Démarrer</span>
                   </motion.button>
+                  {engine === "browser" ? (
+                    <p className="mt-2.5 text-[11px] leading-snug text-white/50">
+                      En démarrant, vous acceptez que l&apos;appel (voix et texte) soit enregistré et conservé {LINA_RETENTION_DAYS} jours pour
+                      que notre équipe vous réponde au mieux.
+                    </p>
+                  ) : null}
                 </motion.div>
               )}
             </AnimatePresence>

@@ -15,7 +15,7 @@ import { Faq } from "@/components/home/Faq";
 import { CtaBanner } from "@/components/home/CtaBanner";
 import { Contact } from "@/components/home/Contact";
 import { faqItems } from "@/content/faq";
-import { clampDescription, faqJsonLd, jsonLdString, pageMetadata } from "@/lib/seo";
+import { clampDescription, faqJsonLd, jsonLdString, pageMetadata, websiteJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
 import { getPublishedFaqs, getPublishedLogos, getSeoSettings } from "@/lib/public-data";
 
@@ -42,6 +42,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(websiteJsonLd()) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(faqJsonLd(faqs)) }} />
       <Hero />
       <MarqueeBand />

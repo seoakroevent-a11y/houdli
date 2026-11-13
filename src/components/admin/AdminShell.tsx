@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Award, CalendarDays, CircleHelp, FileSignature, ImageIcon, Inbox, LayoutDashboard, LogOut, Menu, Newspaper, Receipt, Settings, Users, X } from "lucide-react";
+import { AudioLines, Award, CalendarDays, CircleHelp, FileSignature, ImageIcon, Inbox, LayoutDashboard, LogOut, Menu, Newspaper, Receipt, Settings, Users, X } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { signOut } from "@/lib/admin/session";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { href: "/admin", label: "Tableau de bord", icon: LayoutDashboard },
   { href: "/admin/demandes", label: "Demandes", icon: Inbox },
+  { href: "/admin/conversations", label: "Conversations Lina", icon: AudioLines },
   { href: "/admin/crm", label: "CRM", icon: Users },
   { href: "/admin/devis", label: "Devis", icon: FileSignature },
   { href: "/admin/factures", label: "Factures", icon: Receipt },

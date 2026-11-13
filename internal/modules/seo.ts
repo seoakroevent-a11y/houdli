@@ -41,6 +41,19 @@ export function pageMetadata({ title, description: rawDescription, path, image =
   };
 }
 
+/** Google lit ce bloc sur l'accueil pour choisir le nom du site affiché dans les résultats. */
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}/#website`,
+    name: site.name,
+    alternateName: "Houdli",
+    url: `${site.url}/`,
+    publisher: { "@id": `${site.url}/#organization` },
+  };
+}
+
 export function localBusinessJsonLd(contact?: {
   email: string;
   phoneDisplay: string;
@@ -53,7 +66,7 @@ export function localBusinessJsonLd(contact?: {
     "@type": "LocalBusiness",
     "@id": `${site.url}/#organization`,
     name: site.name,
-    alternateName: "Houd-Li",
+    alternateName: "Houdli",
     slogan: site.slogan,
     foundingDate: String(foundedYear),
     description: site.description,

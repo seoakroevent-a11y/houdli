@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     },
     contents,
     tools: [{ functionDeclarations: linaTools }],
-    generationConfig: { maxOutputTokens: 800 },
+    generationConfig: { maxOutputTokens: 800, thinkingConfig: { thinkingLevel: "minimal" } },
   });
 
   let response: Response | null = null;
